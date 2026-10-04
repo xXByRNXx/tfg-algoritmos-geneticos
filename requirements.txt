@@ -1,0 +1,25 @@
+tfg-algoritmos-geneticos/
+├── .gitignore
+├── README.md                 # Descripción del TFG, objetivos y guía de ejecución
+├── requirements.txt          # Versiones exactas de librerías (numpy, deap, etc.)
+│
+├── memoria/                  # Redacción del documento formal
+│   ├── capitulos/            # Capítulos individuales (.tex o .docx versionados)
+│   ├── figuras/              # Diagramas, esquemas y capturas vectoriales/PNG
+│   └── bibliografia/         # Archivo .bib (BibTeX) o exportación de Zotero
+│
+├── src/                      # Código fuente del algoritmo genético
+│   ├── __init__.py
+│   ├── genetic/              # Módulos: selección, cruce, mutación, fitness
+│   │   ├── __init__.py
+│   │   ├── fitness.py
+│   │   ├── operators.py
+│   │   └── population.py
+│   ├── utils/                # Carga de datos, métricas y utilidades auxiliares
+│   └── main.py               # Punto de entrada para ejecutar simulaciones
+│
+├── notebooks/                # Prototipos exploratorios y generación de gráficas
+├── data/                     # Datos sintéticos o muestras reducidas de entrada
+├── resultados/               # Gráficas finales de convergencia y métricas exportadas (.csv)
+├── actas_reuniones/          # Seguimiento formal con el tutor (1 acta por reunión)
+└── anexos/                   # Manuales de instalación, tablas de hiperparámetros

@@ -1,0 +1,62 @@
+# ==========================================
+# Entornos virtuales y dependencias de Python
+# ==========================================
+venv/
+.venv/
+env/
+ENV/
+*.py[cod]
+*$py.class
+__pycache__/
+
+# ==========================================
+# Archivos de entorno y credenciales
+# ==========================================
+.env
+*.env
+*.secrets
+
+# ==========================================
+# Visual Studio Code
+# ==========================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+.history/
+
+# ==========================================
+# Jupyter Notebooks (puntos de control)
+# ==========================================
+.ipynb_checkpoints/
+
+# ==========================================
+# LaTeX (si redactas la memoria en TeX)
+# ==========================================
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# ==========================================
+# Microsoft Word / Office (archivos temporales de bloqueo)
+# ==========================================
+~$*.docx
+~$*.xlsx
+*.tmp
+
+# ==========================================
+# Datos pesados, checkpoints del modelo y logs
+# ==========================================
+data/raw/*
+!data/raw/sample.csv
+*.h5
+*.pkl
+*.npy
+*.zip
+*.tar.gz
+logs/
