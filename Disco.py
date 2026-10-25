@@ -7,7 +7,8 @@ from scipy.spatial.distance import pdist
 # =====================================================================
 # 1. PARÁMETROS FÍSICOS DEL SISTEMA
 # =====================================================================
-N_CARGAS = 35          # Número de cargas puntuales idénticas
+N_CARGAS = 35        # Número de cargas puntuales idénticas
+# A partir de N_CARGAS >= 12 se empiezan a formar anillos interiores
 RADIO_DISCO = 1.0      # Radio R del disco conductor (unidades adimensionales)
 EPSILON = 1e-6         # Parámetro de regularización de Plummer (evita r_ij = 0)
 SEMILLA = 42           # Semilla para reproducibilidad científica
@@ -50,6 +51,7 @@ def fitness_func(ga_instance, solution, solution_idx):
 # Índices pares: r_i in [0, R] | Índices impares: theta_i in [0, 2*pi]
 espacio_genes = []
 for _ in range(N_CARGAS):
+    # Para hacer un anillo circular hueco poner en 'low': RADIO_DISCO
     espacio_genes.append({'low': 0.0, 'high': RADIO_DISCO})       # r_i
     espacio_genes.append({'low': 0.0, 'high': 2.0 * np.pi})       # theta_i
 
