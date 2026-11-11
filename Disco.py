@@ -50,10 +50,24 @@ def fitness_func(ga_instance, solution, solution_idx):
 # =====================================================================
 # Índices pares: r_i in [0, R] | Índices impares: theta_i in [0, 2*pi]
 espacio_genes = []
+'''
 for _ in range(N_CARGAS):
     # Para hacer un anillo circular hueco poner en 'low': RADIO_DISCO
     espacio_genes.append({'low': 0.0, 'high': RADIO_DISCO})       # r_i
     espacio_genes.append({'low': 0.0, 'high': 2.0 * np.pi})       # theta_i
+'''
+# Para solucionar el problema de los 2N grados de libertad (problema de las convenciones competitivas),
+# vamos a fijar un grado de libertad colocando los dos primeros genes (0 y 1) en el centro del disco y
+# en sobre el semieje positivo x sobre el radio del disco
+
+# Carga 0
+espacio_genes.append([RADIO_DISCO])
+espacio_genes.append([0.0])
+
+# El resto de cargas (de 1 a N-1), quedando 2N-2 grados de libertad:
+for _ in range(1,N_CARGAS):
+    espacio_genes.append({'low':0.0, 'high': RADIO_DISCO})
+    espacio_genes.append({'low':0.0, 'high':2.0 * np.pi})
 
 historial_energia = []
 
