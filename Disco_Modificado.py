@@ -7,7 +7,7 @@ from scipy.spatial.distance import pdist
 # =====================================================================
 # 1. PARÁMETROS FÍSICOS DEL SISTEMA
 # =====================================================================
-N_CARGAS = 1000         # Número total de cargas puntuales idénticas (1 fija + 9 libres)
+N_CARGAS = 100         # Número total de cargas puntuales idénticas (1 fija + 9 libres)
 RADIO_DISCO = 1.0      # Radio R del disco conductor (unidades adimensionales)
 EPSILON = 1e-6         # Parámetro de regularización de Plummer (evita r_ij = 0)
 SEMILLA = 42           # Semilla para reproducibilidad científica
@@ -16,22 +16,16 @@ SEMILLA = 42           # Semilla para reproducibilidad científica
 # 2. DECODIFICACIÓN Y FUNCIÓN DE APTITUD (FITNESS) VECTORIZADA
 # =====================================================================
 def decodificar_cargas(solution):
-    """
-     Toma los 2*(N-1) genes de las cargas libres y añade en la posición 0
-    la carga fija anclada en el borde (r_0 = R, theta_0 = 0).
-    Devuelve los vectores completos (N,) de r, theta, x, y.
-    """
-    polares_libres = solution.reshape((N_CARGAS - 1, 2))
-    
     # Reconstruimos los vectores completos de tamaño N_CARGAS (10 cargas)
     r = np.empty(N_CARGAS)
     theta = np.empty(N_CARGAS)
     
-    # Carga 0: Anclada en (r = R, theta = 0)
-    r[0] = 0.0
-    theta[0] = 0.0
+    # Carga 0: Anclada en (theta = 0)
+    r[0] = solution[0]
+    theta[0] = solution[1]
     
     # Cargas 1 a N-1: Extraídas del cromosoma
+    polares_libres = solution[2:].reshape((N_CARGAS - 1, 2))
     r[1:] = polares_libres[:, 0]
     theta[1:] = polares_libres[:, 1]
     
@@ -68,11 +62,16 @@ def fitness_func(ga_instance, solution, solution_idx):
 # =====================================================================
 # 3. CONFIGURACIÓN DEL ESPACIO GENÉTICO Y CALLBACKS
 # =====================================================================
-espacio_genes_reducido = []
-for _ in range(N_CARGAS - 1):
+espacio_genes = []
+
+espacio_genes.append({'low':0.0,'high':RADIO_DISCO})
+
+espacio_genes.append([0.0])
+
+for _ in range(1, N_CARGAS):
     # Para hacer un anillo circular hueco poner en 'low': RADIO_DISCO
-    espacio_genes_reducido.append({'low': 0.0, 'high': RADIO_DISCO})       # r_i
-    espacio_genes_reducido.append({'low': 0.0, 'high': 2.0 * np.pi})       # theta_i
+    espacio_genes.append({'low': 0.0, 'high': RADIO_DISCO})       # r_i
+    espacio_genes.append({'low': 0.0, 'high': 2.0 * np.pi})       # theta_i
 
 historial_energia = []
 
@@ -102,8 +101,8 @@ def ejecutar_simulacion():
         num_parents_mating=30,
         fitness_func=fitness_func,
         sol_per_pop=100,
-        num_genes=2 * (N_CARGAS - 1),
-        gene_space=espacio_genes_reducido,
+        num_genes=2 * N_CARGAS,
+        gene_space=espacio_genes,
         parent_selection_type="tournament",
         K_tournament=4,
         keep_elitism=4,
